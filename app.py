@@ -97,8 +97,15 @@ with st.sidebar:
     else:
         default_end = date.today() - timedelta(days=1)
     default_start = (pd.Timestamp(default_end) - pd.DateOffset(years=2)).date()
-    start = st.date_input("Start / baseline date", value=default_start, key=f"start_{mode}")
-    end = st.date_input("End date", value=default_end, max_value=date.today() - timedelta(days=1), key=f"end_{mode}")
+    # Date limits: the snapshot covers only its saved history; live/upload allow long studies.
+    EARLIEST_LIVE_DATE = date(2000, 1, 1)
+    if mode == "Bundled snapshot":
+        snap = snapshot_payload()
+        min_day, max_day = date.fromisoformat(snap["baseline_date"]), date.fromisoformat(snap["end_date"])
+    else:
+        min_day, max_day = EARLIEST_LIVE_DATE, date.today() - timedelta(days=1)
+    start = st.date_input("Start / baseline date", value=default_start, min_value=min_day, max_value=max_day, key=f"start_{mode}")
+    end = st.date_input("End date", value=default_end, min_value=min_day, max_value=max_day, key=f"end_{mode}")
     benchmark = st.selectbox("Comparison benchmark", selected, index=selected.index("Nifty 50") if "Nifty 50" in selected else 0)
     rolling_window = st.select_slider("Rolling window (sessions)", [21, 63, 126], value=63)
     st.markdown("#### Risk assumptions")
@@ -187,7 +194,7 @@ with overview:
     heat_fig = go.Figure(go.Heatmap(z=heat.values, x=list(heat.columns), y=heat.index.astype(str), text=labels,
                                   texttemplate="%{text}", colorscale=[[0,"#af425b"],[.5,"#14243a"],[1,"#159a89"]],
                                   zmid=0, colorbar=dict(tickformat=".0%"), hovertemplate="%{y} %{x}: %{z:.2%}<extra></extra>"))
-    show_chart(style_chart(heat_fig, 280), "monthly")
+    show_chart(style_chart(heat_fig, max(280, 70 + 34 * len(heat.index))), "monthly")
     st.caption("Boundary months contain only the selected sessions and can be partial. Blank cells are outside the window or lack observations.")
 
 with risk:
