@@ -129,3 +129,8 @@ The folder is ready to run as a standard Streamlit project. For Streamlit Commun
 - [Streamlit Plotly charts](https://docs.streamlit.io/develop/api-reference/charts/st.plotly_chart)
 - [Streamlit app testing](https://docs.streamlit.io/develop/api-reference/app-testing/st.testing.v1.apptest)
 - [yfinance download parameters](https://ranaroussi.github.io/yfinance/reference/api/yfinance.download.html)
+
+## Author
+
+Prof. V. Ravichandran · [The Mountain Path Academy](https://themountainpathacademy.com)  
+[LinkedIn](https://www.linkedin.com/in/trichyravis) · [GitHub](https://github.com/trichyravis)

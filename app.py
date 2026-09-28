@@ -17,7 +17,7 @@ from data_access import (DEFAULT_INDICES, INDICES, live_prices, quality_table,
 
 st.set_page_config(page_title="Global index performance", page_icon="📈", layout="wide")
 COLORS = dict(zip(INDICES, ["#13b8a6", "#4c8dff", "#a08bf4", "#f2b65b", "#e78293", "#6abbd7", "#e79a58", "#91b969"]))
-st.markdown("""<style>
+st.html("""<style>
 .block-container {padding-top:2.5rem;max-width:1480px;padding-bottom:3rem}
 h1 {letter-spacing:-1.3px;font-weight:750!important}
 h2,h3 {letter-spacing:-.4px}
@@ -27,7 +27,7 @@ h2,h3 {letter-spacing:-.4px}
 .eyebrow {font-size:12px;letter-spacing:2.4px;color:#51cfbd;font-weight:700;margin-bottom:8px}
 .lead {color:#afc0d4;font-size:17px;margin-bottom:22px;max-width:900px}
 .insight {border-left:3px solid #13b8a6;padding:12px 18px;background:#14243a;border-radius:0 8px 8px 0;margin:14px 0}
-</style>""", unsafe_allow_html=True)
+</style>""")
 
 
 @st.cache_data(ttl=3600, show_spinner=False)
@@ -110,9 +110,9 @@ with st.sidebar:
         get_live.clear()
     st.caption("Daily risk annualisation: 252 sessions. Weekly comparisons: 52 weeks.")
 
-st.markdown('<div class="eyebrow">MARKET RESEARCH / GLOBAL EQUITIES</div>', unsafe_allow_html=True)
+st.html('<div class="eyebrow" style="margin-top:16px;margin-bottom:-8px;color:#51cfbd;-webkit-text-fill-color:#51cfbd;user-select:none">MARKET RESEARCH / GLOBAL EQUITIES</div>')
 st.title("Global index performance")
-st.markdown('<div class="lead">Compare Nifty with global markets. See what drove returns, how often markets fell, and the risk taken along the way.</div>', unsafe_allow_html=True)
+st.html('<div class="lead" style="margin-bottom:6px;color:#afc0d4;-webkit-text-fill-color:#afc0d4;user-select:none">Compare Nifty with global markets. See what drove returns, how often markets fell, and the risk taken along the way.</div>')
 
 notes = []
 try:
@@ -175,7 +175,7 @@ with overview:
         insight = f"{best} gained {pct(m.loc[best, 'Price return'])}, ahead of {focus} by {gap:.1f} percentage points over this window."
     else:
         insight = f"{focus} delivered the highest return in this selection: {pct(m.loc[focus, 'Price return'])}."
-    st.markdown(f'<div class="insight">{html.escape(insight)} Down-day frequency and cumulative return measure different things.</div>', unsafe_allow_html=True)
+    st.html(f'<div class="insight" style="color:#e5edf6;-webkit-text-fill-color:#e5edf6;user-select:none">{html.escape(insight)} Down-day frequency and cumulative return measure different things.</div>')
     show_table(m[["Price return", "CAGR", "Volatility", "Max drawdown", "Sharpe", "Down-day share"]],
                percent=["Price return", "CAGR", "Volatility", "Max drawdown", "Down-day share"])
     st.subheader("Monthly returns")
@@ -321,3 +321,27 @@ e2.download_button("Daily closes CSV", p.to_csv().encode(), "daily-index-closes.
 e3.download_button("Daily returns CSV", r.to_csv().encode(), "daily-index-returns.csv", "text/csv")
 e4.download_button("Study settings JSON", json.dumps(metadata, indent=2).encode(), "study-settings.json", "application/json")
 st.caption("CSV return and risk percentages are stored as decimal fractions: 0.10 = 10%. Every chart can be downloaded as a PNG from its toolbar.")
+
+# ── The Mountain Path Academy footer ─────────────────────────────────────────
+MP_GOLD, MP_CARD, MP_MUTED, MP_TXT = "#FFD700", "#112240", "#8892b0", "#e6f1ff"
+
+
+def mp_link(url: str, label: str) -> str:
+    return (f'<a href="{url}" target="_blank" rel="noopener noreferrer" '
+            f'style="color:{MP_GOLD};-webkit-text-fill-color:{MP_GOLD};text-decoration:none;'
+            f'font-weight:700;margin:0 10px">{label}</a>')
+
+
+MP_FOOTER = (
+    f'<div style="margin-top:2.2rem;padding:18px 20px;background:{MP_CARD};border-top:2px solid {MP_GOLD};'
+    f'border-radius:10px;text-align:center;user-select:none;font-family:Arial,sans-serif">'
+    f'<div style="color:{MP_TXT};-webkit-text-fill-color:{MP_TXT};font-weight:700;font-size:15px;margin-bottom:6px">'
+    f'Prof. V. Ravichandran · The Mountain Path Academy</div>'
+    f'<div style="color:{MP_MUTED};-webkit-text-fill-color:{MP_MUTED};font-size:14px;margin-bottom:8px">'
+    f'{mp_link("https://themountainpathacademy.com", "themountainpathacademy.com")}|'
+    f'{mp_link("https://www.linkedin.com/in/trichyravis", "LinkedIn")}|'
+    f'{mp_link("https://github.com/trichyravis", "GitHub")}</div>'
+    f'<div style="color:{MP_MUTED};-webkit-text-fill-color:{MP_MUTED};font-size:12px">'
+    f'For education and research only. Not investment advice.</div></div>'
+)
+st.html(MP_FOOTER)
