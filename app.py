@@ -117,6 +117,16 @@ with st.sidebar:
         get_live.clear()
     st.caption("Daily risk annualisation: 252 sessions. Weekly comparisons: 52 weeks.")
 
+MP_HEADER = (
+    '<div style="margin-top:16px;padding:0 0 12px 0;border-bottom:1px solid rgba(255,215,0,.35);user-select:none">'
+    '<a href="https://themountainpathacademy.com/index.html" target="_blank" rel="noopener noreferrer" '
+    'style="color:#FFD700;-webkit-text-fill-color:#FFD700;text-decoration:none;font-weight:800;'
+    'font-size:22px;letter-spacing:.3px">The Mountain Path Academy '
+    '<span style="color:#FFD700;-webkit-text-fill-color:#FFD700">&#9650;</span></a>'
+    '<div style="color:#8892b0;-webkit-text-fill-color:#8892b0;font-size:14px;letter-spacing:1px;margin-top:4px">'
+    'Finance &middot; Risk Management &middot; Quantitative Analytics</div></div>'
+)
+st.html(MP_HEADER)
 st.html('<div class="eyebrow" style="margin-top:16px;margin-bottom:-8px;color:#51cfbd;-webkit-text-fill-color:#51cfbd;user-select:none">MARKET RESEARCH / GLOBAL EQUITIES</div>')
 st.title("Global index performance")
 st.html('<div class="lead" style="margin-bottom:6px;color:#afc0d4;-webkit-text-fill-color:#afc0d4;user-select:none">Compare Nifty with global markets. See what drove returns, how often markets fell, and the risk taken along the way.</div>')
